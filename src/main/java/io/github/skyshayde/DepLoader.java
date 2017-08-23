@@ -41,7 +41,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * For autodownloading stuff.
+ * For downloading the mods.
  * This is really unoriginal, mostly ripped off FML, credits to cpw.
  */
 public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
@@ -171,8 +171,8 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
         public void showErrorDialog(String name, String url) {
             JEditorPane ep = new JEditorPane("text/html",
                     "<html>" +
-                            owner + " was unable to download required library " + name +
-                            "<br>Check your internet connection and try restarting or download it manually from" +
+                            owner + " was unable to downloadList required library " + name +
+                            "<br>Check your internet connection and try restarting or downloadList it manually from" +
                             "<br><a href=\"" + url + "\">" + url + "</a> and put it in your mods folder" +
                             "</html>");
 
@@ -189,7 +189,7 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
                 }
             });
 
-            JOptionPane.showMessageDialog(null, ep, "A download error has occured", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ep, "A downloadList error has occured", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -402,7 +402,7 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
                 downloadMonitor.updateProgressString("Download complete");
                 logger.info("Download complete");
             } catch (Exception e) {
-                installError(e, dep, "download");
+                installError(e, dep, "downloadList");
             }
         }
 
@@ -418,7 +418,7 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
         private void download(InputStream is, int sizeGuess, Dependency dep) throws Exception {
             File target = new File(v_modsDir, dep.file.filename);
             if (sizeGuess > downloadBuffer.capacity())
-                throw new Exception(String.format("The file %s is too large to be downloaded by " + owner + " - the download is invalid", target.getName()));
+                throw new Exception(String.format("The file %s is too large to be downloaded by " + owner + " - the downloadList is invalid", target.getName()));
 
             downloadBuffer.clear();
 
@@ -495,6 +495,9 @@ public class DepLoader implements IFMLLoadingPlugin, IFMLCallHook {
             loadDeps();
             activateDeps();
         }
+
+
+
 
         private void activateDeps() {
             for (Dependency dep : depMap.values()) {

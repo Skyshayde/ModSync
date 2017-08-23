@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "modsync",
+  "name": "Mod Sync",
+  "description": "Mod to synchronize server mods to the client",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["ExampleDude"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": ["Skyshayde"],
+  "credits": "Skyshayde",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

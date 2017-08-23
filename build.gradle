@@ -12,6 +12,7 @@ buildscript {
 plugins {
     id 'com.github.johnrengelman.shadow' version '2.0.1'
 }
+apply plugin: 'project-report'
 apply plugin: 'net.minecraftforge.gradle.forge'
 //Only edit below this line, the above code adds and enables the nessasary things for Forge to be setup.
 
@@ -20,9 +21,9 @@ version = "0.1"
 group = "io.github.skyshayde" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "modsync"
 
-sourceCompatibility = targetCompatibility = "1.6" // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = "1.8" // Need this here so eclipse task generates correctly.
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.6"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 task wrapper(type: Wrapper) {
     gradleVersion = '3.0'
@@ -45,6 +46,8 @@ dependencies {
 //    compile files("jetty-all-uber.jar")
     compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
     compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.6.v20170531'
+    compile group: 'commons-io', name: 'commons-io', version: '2.5'
+
 
 }
 //shadowJar {

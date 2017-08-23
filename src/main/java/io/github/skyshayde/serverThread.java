@@ -1,12 +1,10 @@
 package io.github.skyshayde;
 
-import com.google.gson.Gson;
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import org.eclipse.jetty.server.handler.ContextHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
+import org.eclipse.jetty.server.handler.ResourceHandler;
 
 class serverThread extends Thread {
 
@@ -17,7 +15,24 @@ class serverThread extends Thread {
 
     public static void startServer() throws Exception {
         Server server = new Server(8080);
-        server.setHandler(new mcServer());
+        ContextHandler mod_context = new ContextHandler("/mods");
+        ContextHandler config_context = new ContextHandler("/config");
+
+        ResourceHandler mods_handler = new ResourceHandler();
+        ResourceHandler config_handler = new ResourceHandler();
+
+        mods_handler.setResourceBase("./mods");
+        config_handler.setResourceBase("./config");
+
+        mods_handler.setDirAllowed(true);
+        config_handler.setDirAllowed(true);
+
+        mod_context.setHandler(mods_handler);
+        config_context.setHandler(config_handler);
+
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { mod_context, config_context, new mcServer()});
+        server.setHandler(handlers);
 
         server.start();
         server.join();
