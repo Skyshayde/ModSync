@@ -5,7 +5,6 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.Side;
@@ -34,27 +33,8 @@ public class ModSync {
     private File modsDir = new File(mcDir, "mods");
     private File v_modsDir = new File(mcDir, "mods/" + mcVer);
 
-    public static void syncClientConfig() {
-        try {
-            // Load config
-            config.load();
 
-            // Read props from config
-            Property serverUrlProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
-                    "serverURL", // Property name
-                    "http://localhost:8080", // Default value
-                    "What server should mods sync from"); // Comment
-
-            serverUrl = serverUrlProp.getString(); // Get the boolean value, also set the property value to boolean
-        } catch (Exception e) {
-            // Failed reading/writing, just continue
-        } finally {
-            // Save props to config IF config changed
-            if (config.hasChanged()) config.save();
-        }
-    }
-
-    public static void syncServerConfig() {
+    public static void SyncConfig() {
         try {
             // Load config
             config.load();
@@ -93,15 +73,11 @@ public class ModSync {
     }
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
-    }
-
-    @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         if (event.getSide() == Side.CLIENT) {
             System.out.println("ModSync started on Client side");
             config = new Configuration(event.getSuggestedConfigurationFile());
-            syncServerConfig();
+            SyncConfig();
             URLConnection serverConnection = connectServer(serverUrl);
             System.out.println("Connecting to " + serverUrl);
             String json = "";
@@ -122,7 +98,7 @@ public class ModSync {
         if (event.getSide() == Side.SERVER) {
             System.out.println("ModSync started on Server side");
             config = new Configuration(event.getSuggestedConfigurationFile());
-            syncServerConfig();
+            SyncConfig();
             serverThread sThread = new serverThread();
             sThread.start();
         }

@@ -9,8 +9,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 /**
  * Created by skysh on 8/20/2017.
@@ -60,6 +61,26 @@ public class ModDownloader {
             e.printStackTrace();
         }
 
+    }
+
+    public static void disableMods(List<String> mods) {
+        Collection<String> modsInFolder = new HashSet<String>();
+        Collection<String> modsOnServer = new HashSet<String>();
+        mods.forEach(v -> modsOnServer.add(v));
+        try {
+            Files.walk(Paths.get(modsDir.getPath())).filter(Files::isRegularFile).forEach(File -> {
+                modsInFolder.add(modsDir.toPath().relativize(File).toString());
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        modsInFolder.removeAll(modsOnServer);
+
+        modsInFolder.removeIf(mod -> Paths.get(mod).startsWith("hats"));
+        modsInFolder.forEach(mod -> {
+            File f = new File(modsDir + "/" + mod);
+            f.renameTo(new File(modsDir + "/" + mod + ".disabled"));
+        });
     }
 }
 
