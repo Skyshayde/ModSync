@@ -23,7 +23,7 @@ import java.util.Map;
 public class ModSync {
     public static final String MODID = "modsync";
     public static final String VERSION = "0.1";
-    public static String serverUrl = "http://168.235.103.57:8080";
+    public static String serverUrl = "http://localhost:8080";
     public static String serverPort = "8080";
     public static Configuration config;
     public List<Map> modslist = new ArrayList<Map>();
@@ -48,7 +48,7 @@ public class ModSync {
             serverPort = portProp.getString(); // Get the boolean value, also set the property value to boolean
             Property serverUrlProp = config.get(Configuration.CATEGORY_GENERAL, // What category will it be saved to, can be any string
                     "serverURL", // Property name
-                    "http://168.235.103.57:8080", // Default value
+                    "localhost:8080", // Default value
                     "What server should mods sync from"); // Comment
 
             serverUrl = serverUrlProp.getString(); // Get the boolean value, also set the property value to boolean
